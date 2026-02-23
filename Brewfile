@@ -1,0 +1,7 @@
+tap "hashicorp/tap"
+# brew "git"
+brew "gitlab-runner"
+# brew "hashicorp/tap/packer"
+cask "docker-desktop"
+cask "hashicorp/tap/hashicorp-vagrant"
+cask "virtualbox"

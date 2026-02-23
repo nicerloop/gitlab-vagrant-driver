@@ -1,0 +1,14 @@
+[[runners]]
+  executor = "custom"
+  [runners.custom]
+    config_exec = "vagrant-driver.sh"
+    config_args = [ "config", "box=user/name:0.0.0", "provider=virtualbox", "template=/path/to/Vagrantfile.erb" ]
+
+    prepare_exec = "vagrant-driver.sh"
+    prepare_args = [ "prepare" ]
+
+    run_exec = "vagrant-driver.sh"
+    run_args = [ "run" ]
+
+    cleanup_exec = "vagrant-driver.sh"
+    cleanup_args = [ "cleanup" ]

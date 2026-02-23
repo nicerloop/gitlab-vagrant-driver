@@ -1,0 +1,23 @@
+services:
+  gitlab:
+    # https://docs.gitlab.com/install/docker/configuration/
+    # https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template
+    image: gitlab/gitlab-ce:18.9.0-ce.0
+    restart: always
+    shm_size: "256m"
+    ports:
+      - "${GITLAB_PORT}:${GITLAB_PORT}"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "http://${GITLAB_HOST}:${GITLAB_PORT}"
+        gitlab_rails['initial_root_password'] = "${GITLAB_ROOT_PASSWORD}"
+        gitlab_rails['initial_shared_runners_registration_token'] = "${GITLAB_RUNNER_REGISTRATION_TOKEN}"
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
+
+volumes:
+  gitlab_config:
+  gitlab_logs:
+  gitlab_data:
