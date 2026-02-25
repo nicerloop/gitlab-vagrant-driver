@@ -51,21 +51,21 @@ gitlab-runner register \
 	--builds-dir "builds" \
 	--cache-dir "cache" \
 	--executor "custom" \
-	--custom-config-exec "$(pwd)/vagrant-driver.sh" \
+	--custom-config-exec "$(pwd)/../bin/vagrant-driver.sh" \
 	--custom-config-args "config" \
 	--custom-config-args "box=stromweld/windows-11:202511.21.0" \
 	--custom-config-args "provider=virtualbox" \
-	--custom-config-args "template=$(pwd)/Vagrantfile.vbox.win.erb" \
-	--custom-prepare-exec "$(pwd)/vagrant-driver.sh" \
-	--custom-run-exec "$(pwd)/vagrant-driver.sh" \
-	--custom-cleanup-exec "$(pwd)/vagrant-driver.sh" \
-	--template-config "$(pwd)/gitlab-runner-config-template.toml"
+	--custom-config-args "template=$(pwd)/../share/templates/Vagrantfile.vbox.win.erb" \
+	--custom-prepare-exec "$(pwd)/../bin/vagrant-driver.sh" \
+	--custom-run-exec "$(pwd)/../bin/vagrant-driver.sh" \
+	--custom-cleanup-exec "$(pwd)/../bin/vagrant-driver.sh" \
+	--template-config "$(pwd)/../share/templates/gitlab-runner-config-template.toml"
 
 open "${GITLAB_URL}/admin/runners/1"
 
 # run gitlab runner
 
-PATH=$PATH:$(pwd) gitlab-runner run \
+PATH=$PATH:$(pwd)/../bin gitlab-runner run \
 	--config ./gitlab-runner/config.toml &
 
 # https://docs.gitlab.com/user/profile/personal_access_tokens/#create-a-personal-access-token-programmatically
