@@ -92,5 +92,6 @@ cleanup() {
 
 case "$stage" in
 config | prepare | run | cleanup) "$stage" "$@" ;;
+help) echo "version $vagrant_driver_version"; echo "usage: $0 <stage> [args...]" ;;
 *) echo "unknown stage $stage" >&2 && exit 1 ;;
 esac
