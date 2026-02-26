@@ -54,14 +54,10 @@ gitlab-runner register \
 	--builds-dir "builds" \
 	--cache-dir "cache" \
 	--executor "custom" \
-	--custom-config-exec "$(pwd)/../bin/vagrant-driver.sh" \
 	--custom-config-args "config" \
 	--custom-config-args "box=bento/windows-11" \
 	--custom-config-args "provider=virtualbox" \
 	--custom-config-args "template=$(pwd)/Vagrantfile.vbox.win.erb" \
-	--custom-prepare-exec "$(pwd)/../bin/vagrant-driver.sh" \
-	--custom-run-exec "$(pwd)/../bin/vagrant-driver.sh" \
-	--custom-cleanup-exec "$(pwd)/../bin/vagrant-driver.sh" \
 	--template-config "$(pwd)/../share/templates/gitlab-runner-config-template.toml"
 
 open "${GITLAB_URL}/admin/runners/1"
