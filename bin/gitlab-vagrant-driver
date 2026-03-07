@@ -3,7 +3,7 @@ set -e
 
 test -n "$VAGRANT_DRIVER_DEBUG" && set -x
 
-vagrant_driver_version=0.0.2-dev
+vagrant_driver_version=0.0.2
 
 BUILD_FAILURE_EXIT_CODE=${BUILD_FAILURE_EXIT_CODE:-1}
 SYSTEM_FAILURE_EXIT_CODE=${SYSTEM_FAILURE_EXIT_CODE:-2}
