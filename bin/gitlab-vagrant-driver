@@ -36,12 +36,12 @@ config() {
 	*"windows"*)
 		shell="powershell"
 		communicator="winrm"
-		guest_temp="C:/temp"
+		temp="C:/temp"
 		;;
 	*"macos"*)
 		shell="sh"
 		communicator="ssh"
-		guest_temp="/tmp"
+		temp="/tmp"
 		;;
 	*)
 		echo "unsupported guest os for image $image" >&2
@@ -53,7 +53,7 @@ provider=$provider
 template=$template
 image=$image
 communicator=$communicator
-guest_temp=$guest_temp
+temp=$temp
 EOF
 	cat <<EOF
 {
@@ -67,7 +67,7 @@ EOF
 	"template": "$template",
 	"image": "$image",
 	"communicator": "$communicator",
-	"guest_temp": "$guest_temp"
+	"temp": "$temp"
   }
 }
 EOF
@@ -110,11 +110,11 @@ run() {
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
 	test -n "$description" && echo "$description"
-	vagrant upload "$script" "$guest_temp/$script_name" >/dev/null 2>&1 || {
+	vagrant upload "$script" "$temp/$script_name" >/dev/null 2>&1 || {
 		echo "failed to upload script $description" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
-	vagrant "$communicator" --command "$guest_temp/$script_name" || {
+	vagrant "$communicator" --command "$temp/$script_name" || {
 		echo $? >"$BUILD_EXIT_CODE_FILE"
 		echo "failed to execute script $description" >&2
 		exit "$BUILD_FAILURE_EXIT_CODE"
