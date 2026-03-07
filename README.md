@@ -2,6 +2,15 @@
 
 Custom GitLab Runner driver that provisions CI jobs in [Vagrant](https://developer.hashicorp.com/vagrant) VMs (currently Windows and macOS guest boxes) using the runner [custom executor](https://docs.gitlab.com/runner/executors/custom/) lifecycle.
 
+## Installation
+
+On macOS, you can use [homebrew](https://brew.sh) with a [custom gitlab-vagrant-driver tap](https://github.com/nicerloop/homebrew-gitlab-vagrant-driver):
+
+```sh
+tap nicerloop/gitlab-vagrant-driver
+brew install gitlab-vagrant-driver
+```
+
 ## Runner registration configuration
 
 When registering a GitLab Runner for this driver, choose the `custom` executor, install the driver script in a directory on `PATH`, then configure the custom stage commands to call `gitlab-vagrant-driver`.
