@@ -17,9 +17,15 @@ test -n "$stage" || {
 config() {
 	while [ $# -gt 0 ]; do
 		case "$1" in
-		image=*) image=${1#image=} ;;
-		provider=*) provider=${1#provider=} ;;
-		template=*) template=${1#template=} ;;
+		image=*)
+			image=${1#image=}
+			;;
+		provider=*)
+			provider=${1#provider=}
+			;;
+		template=*)
+			template=${1#template=}
+			;;
 		*)
 			echo "unknown config parameter $1" >&2
 			exit "$SYSTEM_FAILURE_EXIT_CODE"
@@ -129,8 +135,13 @@ cleanup() {
 }
 
 case "$stage" in
-config | prepare | run | cleanup) "$stage" "$@" ;;
-help) echo "version $vagrant_driver_version"; echo "usage: $0 <stage> [args...]" ;;
+config | prepare | run | cleanup)
+	"$stage" "$@"
+	;;
+help)
+	echo "version $vagrant_driver_version"
+	echo "usage: $0 <stage> [args...]"
+	;;
 *)
 	echo "unknown stage $stage" >&2
 	exit "$SYSTEM_FAILURE_EXIT_CODE"
