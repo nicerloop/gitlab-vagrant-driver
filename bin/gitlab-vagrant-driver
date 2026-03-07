@@ -31,8 +31,8 @@ config() {
 		echo "missing required parameter image" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
-	job_image="${CUSTOM_ENV_JOB_IMAGE:-$image}"
-	case "$job_image" in
+	image="${CUSTOM_ENV_JOB_IMAGE:-$image}"
+	case "$image" in
 	*"windows"*)
 		guest_shell="powershell"
 		communicator="winrm"
@@ -44,14 +44,14 @@ config() {
 		guest_temp="/tmp"
 		;;
 	*)
-		echo "unsupported guest os for image $job_image" >&2
+		echo "unsupported guest os for image $image" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 		;;
 	esac
 	test -n "$VAGRANT_DRIVER_DEBUG" && cat >driver.env <<EOF
 provider=$provider
 template=$template
-job_image=$job_image
+image=$image
 communicator=$communicator
 guest_temp=$guest_temp
 EOF
@@ -65,7 +65,7 @@ EOF
   "job_env": {
 	"provider": "$provider",
 	"template": "$template",
-	"job_image": "$job_image",
+	"image": "$image",
 	"communicator": "$communicator",
 	"guest_temp": "$guest_temp"
   }
@@ -76,9 +76,9 @@ EOF
 prepare() {
 	# shellcheck source=/dev/null
 	test -n "$VAGRANT_DRIVER_DEBUG" && . "driver.env"
-	box_name=$(echo "$job_image" | cut -d ':' -f 1)
-	if [ "$box_name" != "$job_image" ]; then
-		box_version=$(echo "$job_image" | cut -d ':' -f 2)
+	box_name=$(echo "$image" | cut -d ':' -f 1)
+	if [ "$box_name" != "$image" ]; then
+		box_version=$(echo "$image" | cut -d ':' -f 2)
 		version_args="--box-version $box_version"
 	fi
 	test -n "$provider" && provider_args="--provider $provider"
