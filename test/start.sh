@@ -64,7 +64,7 @@ open "${GITLAB_URL}/admin/runners/1"
 
 # run gitlab runner
 
-PATH=$PATH:$(pwd)/../bin gitlab-runner run \
+PATH=$(pwd)/../bin:$PATH gitlab-runner run \
 	--config ./gitlab-runner/config.toml &
 
 # https://docs.gitlab.com/user/profile/personal_access_tokens/#create-a-personal-access-token-programmatically
