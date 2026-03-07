@@ -3,7 +3,7 @@ set -e
 
 test -n "$VAGRANT_DRIVER_DEBUG" && set -x
 
-vagrant_driver_version=0.0.1
+vagrant_driver_version=0.0.2-dev
 
 stage="$1" && shift || true
 stage="${stage:?missing argument}"
