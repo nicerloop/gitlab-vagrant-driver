@@ -7,8 +7,7 @@ Custom GitLab Runner driver that provisions CI jobs in [Vagrant](https://develop
 On macOS, you can use [homebrew](https://brew.sh) with a [custom gitlab-vagrant-driver tap](https://github.com/nicerloop/homebrew-gitlab-vagrant-driver):
 
 ```sh
-tap nicerloop/gitlab-vagrant-driver
-brew install gitlab-vagrant-driver
+brew install nicerloop/gitlab-vagrant-driver/gitlab-vagrant-driver
 ```
 
 ## Runner registration configuration
