@@ -11,16 +11,16 @@ stage="${stage:?missing argument}"
 config() {
 	while [ $# -gt 0 ]; do
 		case "$1" in
-		box=*) box=${1#box=} ;;
+		image=*) image=${1#image=} ;;
 		provider=*) provider=${1#provider=} ;;
 		template=*) template=${1#template=} ;;
 		*) echo "unknown config parameter $1" >&2 && exit 1 ;;
 		esac
 		shift
 	done
-	box="${box:?missing parameter}"
-	job_box="${CUSTOM_ENV_JOB_IMAGE:-$box}"
-	case "$job_box" in
+	image="${image:?missing parameter}"
+	job_image="${CUSTOM_ENV_JOB_IMAGE:-$image}"
+	case "$job_image" in
 	*"windows"*)
 		guest_shell="powershell"
 		vagrant_communicator="winrm"
@@ -31,12 +31,12 @@ config() {
 		vagrant_communicator="ssh"
 		guest_temp="/tmp"
 		;;
-	*) echo "unsupported guest os for box $job_box" >&2 && exit 1 ;;
+	*) echo "unsupported guest os for image $job_image" >&2 && exit 1 ;;
 	esac
 	test -n "$VAGRANT_DRIVER_DEBUG" && cat >driver.env <<EOF
 provider=$provider
 template=$template
-job_box=$job_box
+job_image=$job_image
 vagrant_communicator=$vagrant_communicator
 guest_temp=$guest_temp
 EOF
@@ -50,7 +50,7 @@ EOF
   "job_env": {
 	"provider": "$provider",
 	"template": "$template",
-	"job_box": "$job_box",
+	"job_image": "$job_image",
 	"vagrant_communicator": "$vagrant_communicator",
 	"guest_temp": "$guest_temp"
   }
@@ -61,9 +61,9 @@ EOF
 prepare() {
 	# shellcheck source=/dev/null
 	test -n "$VAGRANT_DRIVER_DEBUG" && . "driver.env"
-	box_name=$(echo "$job_box" | cut -d ':' -f 1)
-	if [ "$box_name" != "$job_box" ]; then
-		box_version=$(echo "$job_box" | cut -d ':' -f 2)
+	box_name=$(echo "$job_image" | cut -d ':' -f 1)
+	if [ "$box_name" != "$job_image" ]; then
+		box_version=$(echo "$job_image" | cut -d ':' -f 2)
 		version_args="--box-version $box_version"
 	fi
 	test -n "$provider" && provider_args="--provider $provider"

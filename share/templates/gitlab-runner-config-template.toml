@@ -2,7 +2,7 @@
   executor = "custom"
   [runners.custom]
     config_exec = "gitlab-vagrant-driver"
-    config_args = [ "config", "box=user/name:0.0.0", "provider=virtualbox", "template=/path/to/Vagrantfile.erb" ]
+    config_args = [ "config", "image=user/name:0.0.0", "provider=virtualbox", "template=/path/to/Vagrantfile.erb" ]
 
     prepare_exec = "gitlab-vagrant-driver"
     prepare_args = [ "prepare" ]

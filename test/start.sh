@@ -55,7 +55,7 @@ gitlab-runner register \
 	--cache-dir "cache" \
 	--executor "custom" \
 	--custom-config-args "config" \
-	--custom-config-args "box=bento/windows-11" \
+	--custom-config-args "image=bento/windows-11" \
 	--custom-config-args "provider=virtualbox" \
 	--custom-config-args "template=$(pwd)/Vagrantfile.vbox.win.erb" \
 	--template-config "$(pwd)/../share/templates/gitlab-runner-config-template.toml"

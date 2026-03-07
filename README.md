@@ -29,7 +29,7 @@ Example `config.toml` section for a registered runner:
 
   [runners.custom]
     config_exec = "gitlab-vagrant-driver"
-    config_args = ["config", "box=bento/windows-11", "provider=virtualbox", "template=share/templates/Vagrantfile.vbox.win.erb"]
+    config_args = ["config", "image=bento/windows-11", "provider=virtualbox", "template=share/templates/Vagrantfile.vbox.win.erb"]
     prepare_exec = "gitlab-vagrant-driver"
     prepare_args = ["prepare"]
     run_exec = "gitlab-vagrant-driver"
@@ -60,19 +60,19 @@ bin/gitlab-vagrant-driver <stage> [args...]
 ### 1) config
 
 ```sh
-bin/gitlab-vagrant-driver config box=bento/windows-11 provider=virtualbox template=share/templates/Vagrantfile.vbox.win.erb
+bin/gitlab-vagrant-driver config image=bento/windows-11 provider=virtualbox template=share/templates/Vagrantfile.vbox.win.erb
 ```
 
 Accepted args:
 
-- `box=<box-name[:version]>`
+- `image=<box-name[:version]>`
 - `provider=<vagrant-provider>`
 - `template=<path-to-vagrantfile-template>`
 
 Notes:
 
-- `CUSTOM_ENV_JOB_IMAGE` overrides the `box` value when present.
-- Supported guests are inferred from box name:
+- `CUSTOM_ENV_JOB_IMAGE` overrides the `image` value when present.
+- Supported guests are inferred from image/box name:
   - names containing `windows` use `powershell` + `winrm`
   - names containing `macos` use `sh` + `ssh`
 
