@@ -34,12 +34,12 @@ config() {
 	image="${CUSTOM_ENV_JOB_IMAGE:-$image}"
 	case "$image" in
 	*"windows"*)
-		guest_shell="powershell"
+		shell="powershell"
 		communicator="winrm"
 		guest_temp="C:/temp"
 		;;
 	*"macos"*)
-		guest_shell="sh"
+		shell="sh"
 		communicator="ssh"
 		guest_temp="/tmp"
 		;;
@@ -61,7 +61,7 @@ EOF
     "name": "vagrant",
     "version": "$vagrant_driver_version"
   },
-  "shell": "$guest_shell",
+  "shell": "$shell",
   "job_env": {
 	"provider": "$provider",
 	"template": "$template",
