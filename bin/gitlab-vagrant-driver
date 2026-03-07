@@ -5,8 +5,14 @@ test -n "$VAGRANT_DRIVER_DEBUG" && set -x
 
 vagrant_driver_version=0.0.2-dev
 
+BUILD_FAILURE_EXIT_CODE=${BUILD_FAILURE_EXIT_CODE:-1}
+SYSTEM_FAILURE_EXIT_CODE=${SYSTEM_FAILURE_EXIT_CODE:-2}
+
 stage="$1" && shift || true
-stage="${stage:?missing argument}"
+test -n "$stage" || {
+	echo "missing required argument stage" >&2
+	exit "$SYSTEM_FAILURE_EXIT_CODE"
+}
 
 config() {
 	while [ $# -gt 0 ]; do
@@ -14,11 +20,17 @@ config() {
 		image=*) image=${1#image=} ;;
 		provider=*) provider=${1#provider=} ;;
 		template=*) template=${1#template=} ;;
-		*) echo "unknown config parameter $1" >&2 && exit 1 ;;
+		*)
+			echo "unknown config parameter $1" >&2
+			exit "$SYSTEM_FAILURE_EXIT_CODE"
+			;;
 		esac
 		shift
 	done
-	image="${image:?missing parameter}"
+	test -n "$image" || {
+		echo "missing required parameter image" >&2
+		exit "$SYSTEM_FAILURE_EXIT_CODE"
+	}
 	job_image="${CUSTOM_ENV_JOB_IMAGE:-$image}"
 	case "$job_image" in
 	*"windows"*)
@@ -31,7 +43,10 @@ config() {
 		vagrant_communicator="ssh"
 		guest_temp="/tmp"
 		;;
-	*) echo "unsupported guest os for image $job_image" >&2 && exit 1 ;;
+	*)
+		echo "unsupported guest os for image $job_image" >&2
+		exit "$SYSTEM_FAILURE_EXIT_CODE"
+		;;
 	esac
 	test -n "$VAGRANT_DRIVER_DEBUG" && cat >driver.env <<EOF
 provider=$provider
@@ -69,29 +84,55 @@ prepare() {
 	test -n "$provider" && provider_args="--provider $provider"
 	test -n "$template" && template_args="--template $template"
 	# shellcheck disable=SC2086
-	vagrant init $version_args $template_args "$box_name" --force
+	vagrant init $version_args $template_args "$box_name" --force || {
+		echo "failed to initialize Vagrant environment" >&2
+		exit "$SYSTEM_FAILURE_EXIT_CODE"
+	}
 	# shellcheck disable=SC2086
-	vagrant up $provider_args
+	vagrant up $provider_args || {
+		echo "failed to start Vagrant environment" >&2
+		exit "$SYSTEM_FAILURE_EXIT_CODE"
+	}
 }
 
 run() {
 	# shellcheck source=/dev/null
 	test -n "$VAGRANT_DRIVER_DEBUG" && . "driver.env"
 	script="$1" && shift || true
-	script="${script:?missing argument}"
+	test -n "$script" || {
+		echo "missing required argument script" >&2
+		exit "$SYSTEM_FAILURE_EXIT_CODE"
+	}
 	script_name=$(basename "$script")
 	description="$1" && shift || true
+	test -n "$description" || {
+		echo "missing required argument description" >&2
+		exit "$SYSTEM_FAILURE_EXIT_CODE"
+	}
 	test -n "$description" && echo "$description"
-	vagrant upload "$script" "$guest_temp/$script_name" >/dev/null 2>&1
-	vagrant "$vagrant_communicator" --command "$guest_temp/$script_name"
+	vagrant upload "$script" "$guest_temp/$script_name" >/dev/null 2>&1 || {
+		echo "failed to upload script $description" >&2
+		exit "$SYSTEM_FAILURE_EXIT_CODE"
+	}
+	vagrant "$vagrant_communicator" --command "$guest_temp/$script_name" || {
+		echo $? >"$BUILD_EXIT_CODE_FILE"
+		echo "failed to execute script $description" >&2
+		exit "$BUILD_FAILURE_EXIT_CODE"
+	}
 }
 
 cleanup() {
-	test -f Vagrantfile && (vagrant destroy --force || vagrant destroy --force)
+	test -f Vagrantfile && (vagrant destroy --force || vagrant destroy --force || {
+		echo "failed to destroy Vagrant environment" >&2
+		exit "$SYSTEM_FAILURE_EXIT_CODE"
+	})
 }
 
 case "$stage" in
 config | prepare | run | cleanup) "$stage" "$@" ;;
 help) echo "version $vagrant_driver_version"; echo "usage: $0 <stage> [args...]" ;;
-*) echo "unknown stage $stage" >&2 && exit 1 ;;
+*)
+	echo "unknown stage $stage" >&2
+	exit "$SYSTEM_FAILURE_EXIT_CODE"
+	;;
 esac
