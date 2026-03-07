@@ -35,12 +35,12 @@ config() {
 	case "$job_image" in
 	*"windows"*)
 		guest_shell="powershell"
-		vagrant_communicator="winrm"
+		communicator="winrm"
 		guest_temp="C:/temp"
 		;;
 	*"macos"*)
 		guest_shell="sh"
-		vagrant_communicator="ssh"
+		communicator="ssh"
 		guest_temp="/tmp"
 		;;
 	*)
@@ -52,7 +52,7 @@ config() {
 provider=$provider
 template=$template
 job_image=$job_image
-vagrant_communicator=$vagrant_communicator
+communicator=$communicator
 guest_temp=$guest_temp
 EOF
 	cat <<EOF
@@ -66,7 +66,7 @@ EOF
 	"provider": "$provider",
 	"template": "$template",
 	"job_image": "$job_image",
-	"vagrant_communicator": "$vagrant_communicator",
+	"communicator": "$communicator",
 	"guest_temp": "$guest_temp"
   }
 }
@@ -114,7 +114,7 @@ run() {
 		echo "failed to upload script $description" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
-	vagrant "$vagrant_communicator" --command "$guest_temp/$script_name" || {
+	vagrant "$communicator" --command "$guest_temp/$script_name" || {
 		echo $? >"$BUILD_EXIT_CODE_FILE"
 		echo "failed to execute script $description" >&2
 		exit "$BUILD_FAILURE_EXIT_CODE"
