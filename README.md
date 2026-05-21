@@ -34,6 +34,8 @@ Example `config.toml` section for a registered runner:
 [[runners]]
   name = "vagrant-custom-runner"
   executor = "custom"
+  builds_dir = "builds"
+  cache_dir = "cache"
 
   [runners.custom]
     config_exec = "gitlab-vagrant-driver"
