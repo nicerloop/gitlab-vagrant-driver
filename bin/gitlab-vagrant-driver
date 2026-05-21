@@ -137,6 +137,7 @@ run() {
 }
 
 cleanup() {
+	# retry once: vagrant destroy can fail transiently (e.g. locked resources)
 	test -f Vagrantfile && (vagrant destroy --force || vagrant destroy --force || {
 		echo "failed to destroy Vagrant environment" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
