@@ -119,19 +119,19 @@ run() {
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
 	script_name=$(basename "$script")
-	stage="$1" && shift || true
-	test -n "$stage" || {
+	sub_stage="$1" && shift || true
+	test -n "$sub_stage" || {
 		echo "missing required argument stage" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
-	echo "$stage"
+	echo "$sub_stage"
 	vagrant upload "$script" "$temp/$script_name" >/dev/null 2>&1 || {
-		echo "failed to upload script $stage" >&2
+		echo "failed to upload script $sub_stage" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
 	vagrant "$communicator" --command "$temp/$script_name" || {
 		echo $? >"$BUILD_EXIT_CODE_FILE"
-		echo "failed to execute script $stage" >&2
+		echo "failed to execute script $sub_stage" >&2
 		exit "$BUILD_FAILURE_EXIT_CODE"
 	}
 }
