@@ -152,6 +152,8 @@ Under `test/`:
 - `stop.sh`: tears down local test environment
 - `build-bento.sh`: builds and adds local `bento/windows-11` box
 
+> **Note:** `start.sh` uses the deprecated `--registration-token` runner registration flow. GitLab 16.0+ recommends runner authentication tokens (`--token`) instead.
+
 Run from repo root:
 
 ```sh
