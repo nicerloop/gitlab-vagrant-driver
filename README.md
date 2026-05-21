@@ -87,7 +87,7 @@ Accepted args:
 
 Notes:
 
-- `CUSTOM_ENV_JOB_IMAGE` overrides the `image` value when present.
+- `CUSTOM_ENV_CI_JOB_IMAGE` overrides the `image` value when present.
 - Supported guests are inferred from image/box name:
   - names containing `windows` use `powershell` ([PowerShell Desktop](https://docs.gitlab.com/runner/configuration/advanced-configuration/#the-shells)) + `winrm`
   - names containing `macos` use `sh` + `ssh`
