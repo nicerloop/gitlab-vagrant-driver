@@ -48,6 +48,11 @@ Example `config.toml` section for a registered runner:
     cleanup_args = ["cleanup"]
 ```
 
+When installed via Homebrew, templates are under `$(brew --prefix)/share/gitlab-vagrant-driver/`. Use the full path in `config_args`:
+
+```toml
+    config_args = ["config", "image=bento/windows-11", "provider=virtualbox", "template=$(brew --prefix)/share/gitlab-vagrant-driver/Vagrantfile.vbox.win.erb"]
+
 Ensure the runner service account can resolve `gitlab-vagrant-driver` from `PATH`.
 
 ## What it does
@@ -131,7 +136,7 @@ export VAGRANT_DRIVER_DEBUG=1
 
 ## Templates
 
-Built-in templates:
+Built-in templates (under `share/templates/` in the repo, `$(brew --prefix)/share/gitlab-vagrant-driver/` after Homebrew install):
 
 - `share/templates/Vagrantfile.erb`
 - `share/templates/Vagrantfile.tart.mac.erb`
