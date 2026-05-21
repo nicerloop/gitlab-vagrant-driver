@@ -61,6 +61,10 @@ image=$image
 communicator=$communicator
 temp=$temp
 EOF
+	# job_env passes variables to subsequent stages (prepare, run, cleanup).
+	# GitLab Runner injects them as plain environment variables (no CUSTOM_ENV_ prefix).
+	# See https://docs.gitlab.com/runner/executors/custom/#job_env-usage
+	# Source: gitlab-runner/executors/custom/custom.go prepareCommand()
 	cat <<EOF
 {
   "driver": {
@@ -79,6 +83,8 @@ EOF
 EOF
 }
 
+# job_env variables (provider, template, image, communicator, temp) are
+# injected by GitLab Runner into prepare/run/cleanup as plain env vars.
 prepare() {
 	# shellcheck source=/dev/null
 	test -n "$VAGRANT_DRIVER_DEBUG" && . "driver.env"
