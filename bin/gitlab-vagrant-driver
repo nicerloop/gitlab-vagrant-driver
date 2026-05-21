@@ -40,6 +40,9 @@ config() {
 	image="${CUSTOM_ENV_JOB_IMAGE:-$image}"
 	case "$image" in
 	*"windows"*)
+		# "powershell" targets PowerShell Desktop (powershell.exe).
+		# Use "pwsh" instead if the guest only has PowerShell Core (pwsh.exe).
+		# See https://docs.gitlab.com/runner/configuration/advanced-configuration/#the-shells
 		shell="powershell"
 		communicator="winrm"
 		temp="C:/temp"
