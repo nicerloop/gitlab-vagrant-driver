@@ -98,8 +98,12 @@ Runs:
 ### 3) run
 
 ```sh
-bin/gitlab-vagrant-driver run ./job_script.ps1 "optional description"
+bin/gitlab-vagrant-driver run <script_path> <stage_name>
 ```
+
+GitLab Runner invokes `run_exec` multiple times, each time passing the path to
+a generated script and the name of the current sub-stage (e.g. `prepare_script`,
+`get_sources`, `build_script`, …). Both arguments are required.
 
 Behavior:
 
