@@ -52,6 +52,7 @@ When installed via Homebrew, templates are under `$(brew --prefix)/share/gitlab-
 
 ```toml
     config_args = ["config", "image=bento/windows-11", "provider=virtualbox", "template=$(brew --prefix)/share/gitlab-vagrant-driver/Vagrantfile.vbox.win.erb"]
+```
 
 Ensure the runner service account can resolve `gitlab-vagrant-driver` from `PATH`.
 
