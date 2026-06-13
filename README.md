@@ -81,7 +81,7 @@ Notes:
 
 - `CUSTOM_ENV_JOB_IMAGE` overrides the `image` value when present.
 - Supported guests are inferred from image/box name:
-  - names containing `windows` use `powershell` + `winrm`
+  - names containing `windows` use `powershell` ([PowerShell Desktop](https://docs.gitlab.com/runner/configuration/advanced-configuration/#the-shells)) + `winrm`
   - names containing `macos` use `sh` + `ssh`
 - The JSON output includes a [`job_env`](https://docs.gitlab.com/runner/executors/custom/#job_env-usage) block. GitLab Runner injects these as **plain environment variables** (without `CUSTOM_ENV_` prefix) into all subsequent stage calls (`prepare`, `run`, `cleanup`). This is how `provider`, `template`, `image`, `communicator`, and `temp` are passed between stages.
 
