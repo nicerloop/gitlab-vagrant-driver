@@ -37,7 +37,7 @@ config() {
 		echo "missing required parameter image" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
-	image="${CUSTOM_ENV_JOB_IMAGE:-$image}"
+	image="${CUSTOM_ENV_CI_JOB_IMAGE:-$image}"
 	case "$image" in
 	*"windows"*)
 		# "powershell" targets PowerShell Desktop (powershell.exe).
