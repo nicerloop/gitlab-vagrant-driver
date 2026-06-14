@@ -107,11 +107,13 @@ curl --request POST \
 browser tab-new "${GITLAB_URL}/root/test-project"
 
 # clone test-project
-git clone ${GITLAB_URL}/root/test-project
+git clone http://root:${GITLAB_ROOT_TOKEN}@${GITLAB_HOST}:${GITLAB_PORT}/root/test-project
 
 # add pipeline
 (
 	cd test-project
+	git config --local user.name "Test User"
+	git config --local user.email "test.user@localhost"
 	cat > .gitlab-ci.yml <<EOF
 job:
   tags:
