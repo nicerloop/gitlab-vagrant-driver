@@ -1,0 +1,34 @@
+From 806ce8ad7f9bb262a367a088b0aa37d13601b39d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Lo=C3=AFc=20P=C3=89RON?= <loic.peron@gmail.com>
+Date: Sat, 13 Jun 2026 07:37:22 +0200
+Subject: [PATCH] win11 arm64: make autologon persistent
+
+---
+ packer_templates/win_answer_files/11/arm64/Autounattend.xml | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/packer_templates/win_answer_files/11/arm64/Autounattend.xml b/packer_templates/win_answer_files/11/arm64/Autounattend.xml
+index 7fb5bf4..8cc7bd0 100644
+--- a/packer_templates/win_answer_files/11/arm64/Autounattend.xml
++++ b/packer_templates/win_answer_files/11/arm64/Autounattend.xml
+@@ -191,7 +191,6 @@
+ 			<AutoLogon>
+ 				<Username>vagrant</Username>
+ 				<Enabled>true</Enabled>
+-				<LogonCount>1</LogonCount>
+ 				<Password>
+ 					<Value>vagrant</Value>
+ 					<PlainText>true</PlainText>
+@@ -480,9 +479,6 @@ $scripts = @(
+ 		</File>
+ 		<File path="C:\Windows\Setup\Scripts\FirstLogon.ps1">
+ $scripts = @(
+-	{
+-		Set-ItemProperty -LiteralPath 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'AutoLogonCount' -Type 'DWord' -Force -Value 0;
+-	};
+ 	{
+ 		Disable-ComputerRestore -Drive 'C:\';
+ 	};
+-- 
+2.50.1 (Apple Git-155)
+

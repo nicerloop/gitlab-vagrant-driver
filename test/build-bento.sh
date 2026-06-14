@@ -13,8 +13,9 @@ esac
 (
 	cd bento
 	git fetch
-	git switch --detach 6bb523f
+	git switch --detach v5.1.0
 	git reset --hard
+	git apply ../bento-v5.1.0.patch
 	packer init -upgrade packer_templates
 	packer build -force -only=virtualbox-iso.vm -var-file=os_pkrvars/windows/windows-11-"$pkr_arch".pkrvars.hcl packer_templates
 )
