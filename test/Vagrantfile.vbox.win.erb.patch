@@ -1,7 +1,7 @@
 diff --git a/test/Vagrantfile.vbox.win.erb b/test/Vagrantfile.vbox.win.erb
 --- a/test/Vagrantfile.vbox.win.erb
 +++ b/test/Vagrantfile.vbox.win.erb
-@@ -110,5 +110,10 @@
+@@ -100,5 +100,10 @@
      C:/Progra~1/Git/bin/git config --system --unset credential.helper
      C:/Progra~1/Git/bin/git config --system credential.helper store
  SHELL

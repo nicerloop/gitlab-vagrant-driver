@@ -90,16 +90,6 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
 
-  # open interactive session
-  config.vm.provision "shell", inline: <<-SHELL
-    \$regPath = "HKLM:/SOFTWARE/Microsoft/Windows NT/CurrentVersion/WinLogon"
-    Set-ItemProperty -Path \$regPath -Name "AutoAdminLogon" -Value "1" -Type String
-    Set-ItemProperty -Path \$regPath -Name "DefaultUsername" -Value "vagrant" -Type String
-    Set-ItemProperty -Path \$regPath -Name "DefaultPassword" -Value "vagrant" -Type String
-    Set-ItemProperty -Path \$regPath -Name "DefaultDomainName" -Value \$env:COMPUTERNAME -Type String
-    Restart-Computer -Force
-SHELL
-
   # setup GitLab Runner prerequisites
   config.vm.provision "shell", inline: <<-SHELL
     winget install --source winget Git.Git
