@@ -106,6 +106,7 @@ curl --request POST \
   --url "${GITLAB_URL}/api/v4/projects"
 
 browser tab-new "${GITLAB_URL}/root/test-project"
+sleep 5 && browser reload
 
 # clone test-project
 git clone http://root:${GITLAB_ROOT_TOKEN}@${GITLAB_HOST}:${GITLAB_PORT}/root/test-project
@@ -128,3 +129,4 @@ EOF
 )
 
 browser tab-new "${GITLAB_URL}/root/test-project/-/jobs/1"
+sleep 5 && browser reload
