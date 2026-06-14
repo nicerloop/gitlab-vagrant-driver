@@ -30,9 +30,15 @@ total_time=$(( $(date +%s) - start_time ))
 
 echo "${GITLAB_URL} ready after ${total_time} seconds"
 echo "user: root"
-echo "password (copied to clipboard): ${GITLAB_ROOT_PASSWORD}"
-echo "${GITLAB_ROOT_PASSWORD}" | pbcopy
-open "${GITLAB_URL}"
+echo "password: ${GITLAB_ROOT_PASSWORD}"
+browser () {
+  playwright-cli -s $GITLAB_BROWSER_SESSION "$@" >/dev/null
+}
+browser open --headed "${GITLAB_URL}/users/sign_in"
+browser fill 'input[name="user[login]"]' "root"
+browser fill 'input[name="user[password]"]' "${GITLAB_ROOT_PASSWORD}"
+browser click "getByRole('button', { name: 'Sign In' })"
+echo "logged in with temporary Playwright session"
 
 # get host machine architecture
 
@@ -66,7 +72,7 @@ gitlab-runner register \
 	--custom-config-args "template=$(pwd)/Vagrantfile.vbox.win.erb" \
 	--template-config "$(pwd)/../share/templates/gitlab-runner-config-template.toml"
 
-open "${GITLAB_URL}/admin/runners/1"
+browser tab-new "${GITLAB_URL}/admin/runners/1"
 
 # run gitlab runner
 
@@ -90,7 +96,7 @@ curl --request POST \
   --data '{"name": "Test Project", "path": "test-project", "description": "Project description", "visibility": "public"}' \
   --url "${GITLAB_URL}/api/v4/projects"
 
-open "${GITLAB_URL}/root/test-project"
+browser tab-new "${GITLAB_URL}/root/test-project"
 
 # clone test-project
 git clone ${GITLAB_URL}/root/test-project
@@ -110,4 +116,4 @@ EOF
 	git push
 )
 
-open "${GITLAB_URL}/root/test-project/-/jobs/1"
+browser tab-new "${GITLAB_URL}/root/test-project/-/jobs/1"
