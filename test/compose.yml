@@ -2,7 +2,7 @@ services:
   gitlab:
     # https://docs.gitlab.com/install/docker/configuration/
     # https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/files/gitlab-config-template/gitlab.rb.template
-    image: gitlab/gitlab-ce:18.9.0-ce.0
+    image: gitlab/gitlab-ce:latest
     restart: always
     shm_size: "256m"
     ports:
