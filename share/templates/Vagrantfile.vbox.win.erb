@@ -104,6 +104,8 @@ SHELL
   config.vm.provision "shell", inline: <<-SHELL
     winget install --source winget Git.Git
     winget install --source winget GitLab.Runner
+    New-ItemProperty -Path "HKLM:/SYSTEM/CurrentControlSet/Control/FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+    C:/Progra~1/Git/bin/git config --system core.longpaths true
     C:/Progra~1/Git/bin/git lfs install
     C:/Progra~1/Git/bin/git config --system --unset credential.helper
     C:/Progra~1/Git/bin/git config --system credential.helper store
