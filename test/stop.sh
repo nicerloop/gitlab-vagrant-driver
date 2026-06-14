@@ -2,7 +2,7 @@
 . ".env"
 browser="playwright-cli -s $GITLAB_BROWSER_SESSION"
 $browser close
-killall gitlab-runner
+kill $(cat ./gitlab-runner/.pid)
 rm -r -f gitlab-runner
 docker compose down --volumes
 rm -r -f test-project

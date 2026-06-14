@@ -86,6 +86,7 @@ browser tab-new "${GITLAB_URL}/admin/runners/1"
 
 PATH=$(pwd)/../bin:$PATH gitlab-runner run \
 	--config ./gitlab-runner/config.toml &
+echo $! > ./gitlab-runner/.pid
 
 # https://docs.gitlab.com/user/profile/personal_access_tokens/#create-a-personal-access-token-programmatically
 docker compose exec gitlab \
