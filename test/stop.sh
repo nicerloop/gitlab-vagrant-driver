@@ -5,6 +5,7 @@ $browser close
 rm -r -f .playwright-cli
 kill $(cat ./gitlab-runner/.pid)
 rm -r -f gitlab-runner
+rm -f Vagrantfile.*.erb
 docker compose down --volumes
 rm -r -f test-project
 grep -q "${GITLAB_HOST}" /etc/hosts && (
