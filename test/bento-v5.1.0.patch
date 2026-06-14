@@ -1,12 +1,3 @@
-From 806ce8ad7f9bb262a367a088b0aa37d13601b39d Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Lo=C3=AFc=20P=C3=89RON?= <loic.peron@gmail.com>
-Date: Sat, 13 Jun 2026 07:37:22 +0200
-Subject: [PATCH] win11 arm64: make autologon persistent
-
----
- packer_templates/win_answer_files/11/arm64/Autounattend.xml | 4 ----
- 1 file changed, 4 deletions(-)
-
 diff --git a/packer_templates/win_answer_files/11/arm64/Autounattend.xml b/packer_templates/win_answer_files/11/arm64/Autounattend.xml
 index 7fb5bf4..8cc7bd0 100644
 --- a/packer_templates/win_answer_files/11/arm64/Autounattend.xml
@@ -29,6 +20,16 @@ index 7fb5bf4..8cc7bd0 100644
  	{
  		Disable-ComputerRestore -Drive 'C:\';
  	};
--- 
-2.50.1 (Apple Git-155)
 
+diff --git a/os_pkrvars/windows/windows-11-x86_64.pkrvars.hcl b/os_pkrvars/windows/windows-11-x86_64.pkrvars.hcl
+index e828e15..0f8017f 100644
+--- a/os_pkrvars/windows/windows-11-x86_64.pkrvars.hcl
++++ b/os_pkrvars/windows/windows-11-x86_64.pkrvars.hcl
+@@ -9,6 +9,6 @@ parallels_guest_os_type = "win-11"
+ vbox_guest_os_type      = "Windows11_64"
+ vmware_guest_os_type    = "windows11-64"
+ utm_vm_icon             = "windows-11"
+ default_boot_wait       = "1s"
+-vbox_boot_wait          = "10s"
++vbox_boot_command       = ["<ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl><wait><ctrl>"]
+ boot_command            = ["<up><wait><up>"]
