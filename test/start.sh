@@ -42,6 +42,12 @@ x86_64) arch="amd64";;
 aarch64) arch="arm64";;
 esac
 
+# prepare Vagrantfile templates to inject dns resolution
+cp -v ../share/templates/Vagrantfile.vbox.win.erb .
+patch -p 2 < Vagrantfile.vbox.win.erb.patch
+cp -v ../share/templates/Vagrantfile.tart.mac.erb .
+patch -p 2 < Vagrantfile.tart.mac.erb.patch
+
 # register gitlab-runner
 
 gitlab-runner register \

@@ -4,3 +4,4 @@
 /driver.env
 /Vagrantfile
 /.vagrant/
+/Vagrantfile.*.erb

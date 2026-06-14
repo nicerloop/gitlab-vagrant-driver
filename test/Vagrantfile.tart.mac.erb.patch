@@ -1,0 +1,14 @@
+diff --git a/test/Vagrantfile.tart.mac.erb b/test/Vagrantfile.tart.mac.erb
+--- a/test/Vagrantfile.tart.mac.erb
++++ b/test/Vagrantfile.tart.mac.erb
+@@ -97,5 +97,10 @@
+     brew install git git-lfs gitlab-runner
+     git lfs install
+ SHELL
+ 
++  # configure gitlab.test
++  config.vm.provision "shell", inline: <<-SHELL
++    echo 10.0.2.2 gitlab.test >> /etc/hosts
++SHELL
++
+ end
