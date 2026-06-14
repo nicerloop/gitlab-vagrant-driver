@@ -4,6 +4,8 @@ Custom GitLab Runner driver that provisions CI jobs in [Vagrant](https://develop
 
 ## Installation
 
+### Homebrew
+
 On macOS, you can use [homebrew](https://brew.sh) with this repository as a [custom tap](https://docs.brew.sh/Taps):
 
 ```sh
@@ -18,15 +20,19 @@ tap "nicerloop/gitlab-vagrant-driver", "https://github.com/nicerloop/gitlab-vagr
 brew "gitlab-vagrant-driver"
 ```
 
-## Runner registration configuration
+### Manual installation
 
-When registering a GitLab Runner for this driver, choose the `custom` executor, install the driver script in a directory on `PATH`, then configure the custom stage commands to call `gitlab-vagrant-driver`.
+Install the driver script in a directory on `PATH` and ensure it is executable:
 
 Example install:
 
 ```sh
 install -m 0755 ./bin/gitlab-vagrant-driver /usr/local/bin/gitlab-vagrant-driver
 ```
+
+## Runner registration configuration
+
+When registering a GitLab Runner for this driver, choose the `custom` executor, then configure the custom stage commands to call `gitlab-vagrant-driver`.
 
 Example `config.toml` section for a registered runner:
 
@@ -48,13 +54,19 @@ Example `config.toml` section for a registered runner:
     cleanup_args = ["cleanup"]
 ```
 
-When installed via Homebrew, templates are under `$(brew --prefix)/share/gitlab-vagrant-driver/`. Use the full path in `config_args`:
+When installed via Homebrew, templates are under `$(brew --prefix)/share/gitlab-vagrant-driver/`. Use the full path in `config_args`, for exemple on macOS ARM64:
 
 ```toml
-    config_args = ["config", "image=bento/windows-11", "provider=virtualbox", "template=$(brew --prefix)/share/gitlab-vagrant-driver/Vagrantfile.vbox.win.erb"]
+    config_args = ["config", "image=bento/windows-11", "provider=virtualbox", "template=/opt/homebrew/share/gitlab-vagrant-driver/Vagrantfile.vbox.win.erb"]
 ```
 
 Ensure the runner service account can resolve `gitlab-vagrant-driver` from `PATH`.
+
+Register the gitlab runner:
+
+```sh
+gitlab-runner register --executor "custom" --template-config "/opt/homebrew/share/templates/gitlab-runner-config-template.toml"
+```
 
 ## What it does
 
