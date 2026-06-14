@@ -1,6 +1,14 @@
 #!/bin/sh
 set -e
 
+# check dependencies
+command -v docker >/dev/null 2>&1 || { echo >&2 "docker is required but not installed. Aborting."; exit 1; }
+docker info >/dev/null 2>&1 || { echo >&2 "docker service is not running. Aborting."; exit 1; }
+command -v docker-compose >/dev/null 2>&1 || { echo >&2 "docker-compose is required but not installed. Aborting."; exit 1; }
+command -v gitlab-runner >/dev/null 2>&1 || { echo >&2 "gitlab-runner is required but not installed. Aborting."; exit 1; }
+command -v playwright-cli >/dev/null 2>&1 || { echo >&2 "playwright-cli is required but not installed. Aborting."; exit 1; }
+test -d /Applications/Google\ Chrome.app || { echo >&2 "Google Chrome is required but not installed. Aborting."; exit 1; }
+
 # move to script folder
 cd "$(dirname "$0")"
 

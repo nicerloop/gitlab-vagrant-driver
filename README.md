@@ -154,6 +154,20 @@ Under `test/`:
 
 > **Note:** `start.sh` uses the deprecated `--registration-token` runner registration flow. GitLab 16.0+ recommends runner authentication tokens (`--token`) instead.
 
+Install pre-requisites with homebrew:
+```sh
+brew install docker
+brew install docker-compose
+brew install colima
+colima start --cpu 4 --memory 8
+brew services restart colima
+brew install gitlab-runner
+brew install hashicorp/tap/hashicorp-vagrant
+brew install virtualbox
+brew install playwright-cli
+brew install google-chrome
+```
+
 Run from repo root:
 
 ```sh
