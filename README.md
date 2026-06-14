@@ -10,6 +10,7 @@ On macOS, you can use [homebrew](https://brew.sh) with this repository as a [cus
 
 ```sh
 brew tap nicerloop/gitlab-vagrant-driver https://github.com/nicerloop/gitlab-vagrant-driver
+brew trust --formula nicerloop/gitlab-vagrant-driver/gitlab-vagrant-driver
 brew install gitlab-vagrant-driver
 ```
 
@@ -17,7 +18,7 @@ Or, in a `brew bundle` `Brewfile`:
 
 ```ruby
 tap "nicerloop/gitlab-vagrant-driver", "https://github.com/nicerloop/gitlab-vagrant-driver"
-brew "gitlab-vagrant-driver"
+brew "nicerloop/gitlab-vagrant-driver/gitlab-vagrant-driver", trusted: true
 ```
 
 ### Manual installation
