@@ -3,7 +3,7 @@ set -e
 
 test -n "$VAGRANT_DRIVER_DEBUG" && set -x
 
-vagrant_driver_version=0.0.2
+vagrant_driver_version=0.0.3
 
 # Add /usr/local/bin to PATH so that vagrant can be found when installed via Homebrew on macOS.
 PATH=$PATH:/usr/local/bin
