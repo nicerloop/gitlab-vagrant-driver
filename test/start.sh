@@ -120,8 +120,8 @@ git clone http://root:${GITLAB_ROOT_TOKEN}@${GITLAB_HOST}:${GITLAB_PORT}/root/te
 job:
   tags:
     - windows
-  script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
+  script: |
+    Write-Host "Hello from PowerShell"
 EOF
 	git add .
 	git commit -m "add pipeline"
