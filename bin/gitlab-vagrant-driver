@@ -3,7 +3,7 @@ set -e
 
 test -n "$VAGRANT_DRIVER_DEBUG" && set -x
 
-vagrant_driver_version=0.0.3
+vagrant_driver_version=0.0.4
 
 # Add /usr/local/bin to PATH so that vagrant can be found when installed via Homebrew on macOS.
 PATH=$PATH:/usr/local/bin
@@ -48,11 +48,13 @@ config() {
 		# See https://docs.gitlab.com/runner/configuration/advanced-configuration/#the-shells
 		shell="powershell"
 		communicator="winrm"
+		redirection="2>&1 | ForEach-Object { \$_.ToString() }"
 		temp="C:/temp"
 		;;
 	*"macos"*)
 		shell="sh"
 		communicator="ssh"
+		redirection=""
 		temp="/tmp"
 		;;
 	*)
@@ -61,11 +63,12 @@ config() {
 		;;
 	esac
 	test -n "$VAGRANT_DRIVER_DEBUG" && cat >driver.env <<EOF
-provider=$provider
-template=$template
-image=$image
-communicator=$communicator
-temp=$temp
+provider="$provider"
+template="$template"
+image="$image"
+communicator="$communicator"
+redirection="$redirection"
+temp="$temp"
 EOF
 	# job_env passes variables to subsequent stages (prepare, run, cleanup).
 	# GitLab Runner injects them as plain environment variables (no CUSTOM_ENV_ prefix).
@@ -83,6 +86,7 @@ EOF
 	"template": "$template",
 	"image": "$image",
 	"communicator": "$communicator",
+	"redirection": "$redirection",
 	"temp": "$temp"
   }
 }
@@ -132,7 +136,7 @@ run() {
 		echo "failed to upload script $sub_stage" >&2
 		exit "$SYSTEM_FAILURE_EXIT_CODE"
 	}
-	vagrant "$communicator" --command "$temp/$script_name" || {
+	vagrant "$communicator" --command "$temp/$script_name $redirection" || {
 		echo $? >"$BUILD_EXIT_CODE_FILE"
 		echo "failed to execute script $sub_stage" >&2
 		exit "$BUILD_FAILURE_EXIT_CODE"
